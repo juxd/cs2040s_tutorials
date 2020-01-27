@@ -1,0 +1,11 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kd}{class} \PYG{n+nc}{Student} \PYG{o}{\PYGZob{}}
+  \PYG{k+kd}{private} \PYG{n}{String} \PYG{n}{name}\PYG{o}{;}
+
+  \PYG{k+kd}{public} \PYG{n+nf}{Student}\PYG{o}{(}\PYG{n}{String} \PYG{n}{name}\PYG{o}{)} \PYG{o}{\PYGZob{}}
+    \PYG{k}{this}\PYG{o}{.}\PYG{n+na}{name} \PYG{o}{=} \PYG{n}{name}\PYG{o}{;}
+  \PYG{o}{\PYGZcb{}}
+\PYG{o}{\PYGZcb{}}
+
+\PYG{n}{Student} \PYG{n}{hans} \PYG{o}{=} \PYG{k}{new} \PYG{n}{Student}\PYG{o}{(}\PYG{l+s}{\PYGZdq{}Hans\PYGZdq{}}\PYG{o}{);}
+\end{Verbatim}

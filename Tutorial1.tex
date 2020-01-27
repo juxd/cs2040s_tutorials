@@ -1,0 +1,342 @@
+% Created 2020-01-27 Mon 13:56
+% Intended LaTeX compiler: pdflatex
+\documentclass[presentation]{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{grffile}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\usepackage{minted}
+\usetheme{Singapore}
+\author{Julius (juliuss@u.nus.edu)}
+\date{\today}
+\title{CS2040S Tutorial 1}
+\hypersetup{
+ pdfauthor={Julius (juliuss@u.nus.edu)},
+ pdftitle={CS2040S Tutorial 1},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={Emacs 26.3 (Org mode 9.2.1)}, 
+ pdflang={English}}
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+\label{sec:orgf443f62}
+\begin{frame}[<+->][label={sec:org6a824d7}]{About me}
+\begin{itemize}
+\item Year 3 in CS (Interest in Distributed Systems)
+\item Did CVWO for the past 2 summers
+\item Uses Emacs
+\end{itemize}
+\end{frame}
+\begin{frame}[label={sec:org1bf68b1}]{Now your turn!}
+\begin{itemize}
+\item Name
+\item Interests (Preferably not CS related)
+\item What was the nicest thing you ate over CNY?
+\end{itemize}
+\end{frame}
+\begin{frame}[<+->][label={sec:org4e8e6c1}]{What to expect}
+\begin{itemize}
+\item CS2040S is intense
+\begin{itemize}
+\item Some of the material is new to me!
+\end{itemize}
+\item Prepare for class
+\item Contribute to class
+\item I try to respond to emails in like \textasciitilde{}24 hours
+\begin{itemize}
+\item Or you can ping our Telegram group - others probably have the
+same query!
+\end{itemize}
+\item I don't want to touch code!
+\end{itemize}
+\end{frame}
+
+\section{Java}
+\label{sec:orgb8fc8ca}
+\begin{frame}[<+->][label={sec:org2b5b93c}]{Classes and Objects}
+\begin{itemize}
+\item What is a class?
+\item What is an object?
+\end{itemize}
+\end{frame}
+\begin{frame}[label={sec:org8719c36},fragile]{Classes and Objects}
+ \begin{minted}[]{java}
+class Student {
+  private String name;
+
+  public Student(String name) {
+    this.name = name;
+  }
+}
+
+Student hans = new Student("Hans");
+\end{minted}
+\end{frame}
+\begin{frame}[label={sec:orgc0a9326},fragile]{Classes and Objects}
+ \begin{minted}[]{java}
+class Student {
+  private static String name;
+
+  public Student(String name) {
+    this.name = name;
+  }
+}
+
+Student hans = new Student("Hans");
+\end{minted}
+\end{frame}
+
+\begin{frame}[label={sec:org1b4f8ca},fragile]{Classes and Objects}
+ \begin{minted}[]{java}
+class Student {
+  private String name;
+
+  public Student(String name) {
+    this.name = name;
+  }
+
+  private void sayName() {
+    System.out.printf("Hi, my name is %s\n", this.name);
+  }
+}
+
+Student hans = new Student("Hans");
+hans.sayName();
+\end{minted}
+\end{frame}
+\begin{frame}[<+->][label={sec:org5042783}]{Java vs Source}
+\begin{block}{Object-orientedness}
+Everything in Java is an object (well, mostly).
+\end{block}
+\begin{block}{Immutability}
+Because of the object-oriented nature of Java, immutability
+often isn't guaranteed.
+\end{block}
+\begin{block}{Higher Order Functions}
+It's a pain in Java (Covered in CS2030).
+\end{block}
+\end{frame}
+\begin{frame}[label={sec:org6b306d6},fragile]{Pass by value vs pass-by-reference}
+ \begin{minted}[]{java}
+class X { String n = "hi"; }
+
+void foo(X x) { x.n = "bye"; }
+
+X x = new X();
+foo(x);
+System.out.println(x.n);
+\end{minted}
+\end{frame}
+\begin{frame}[label={sec:org64702a6},fragile]{Pass by value vs pass-by-reference}
+ \begin{minted}[]{java}
+class X { String n = "hi"; }
+
+void goo(X x) {
+  x = new X();
+  x.n = "bye";
+}
+
+X xx = new X();
+goo(xx);
+System.out.println(xx.n);
+\end{minted}
+\end{frame}
+\begin{frame}[label={sec:org15f2263},fragile]{Pass by value vs pass-by-reference}
+ \begin{minted}[]{java}
+void hoo(int x) {
+  x += 3;
+}
+
+int n = 3;
+hoo(n);
+System.out.println(n);
+\end{minted}
+\end{frame}
+\section{Complexity}
+\label{sec:org70524d8}
+\begin{frame}[label={sec:orge929e76},fragile,shrink=30]{Example 1}
+ \begin{minted}[]{java}
+public static int niceFunction(int n)
+{
+        for (int i = 0; i < n; i++)
+        {
+                System.out.println("I am nice!");
+        }
+        return 42;
+}
+
+public static int meanFunction(int n)
+{
+        if(n == 0) return 0;
+        return (2 * meanFunction(n/2) + niceFunction(n));
+}
+
+public static int evilFunction(int n)
+{
+        for(int i = 2; i < n; i *= i){
+                System.out.println("To be or not to be");
+        }
+        return 666;
+}
+
+\end{minted}
+\end{frame}
+\begin{frame}[label={sec:orgec0e1ae},fragile]{Example 2}
+ \begin{minted}[]{java}
+public static int drEvilsRevenge(int n){
+        return drEvilRecursion(0, n);
+}
+
+public static int drEvilRecursion(int k, int n){
+        if(k == n) return 0;
+        else {
+                return drEvilRecursion(k+1, n)
+                     + drEvilRecursion(k+1, n);
+        }
+}
+
+\end{minted}
+\end{frame}
+\begin{frame}[label={sec:org4eafab7},fragile]{Example 3}
+ \begin{minted}[]{java}
+public static int legendaryFunction(int n){
+        int x = 0;
+        if(n == 0) return 1;
+        for(int i = 0; i < n; i++){
+                x += legendaryFunction(n-1);
+        }
+        return x;
+}
+\end{minted}
+\end{frame}
+\begin{frame}[label={sec:org1a55a7a},fragile,shrink=30]{Example 4}
+ \begin{minted}[]{java}
+// From CS1020
+public static int theChosenOne(int n)
+{
+        int x = 0;
+        for (int i = 1; i < n; i *= 3)
+        {
+                x++;
+                for(int j = 0; j < i; j++)
+                {
+                        x++;
+                        for(int k = n-1; k >= 0; k--){
+                                x++;
+                        }
+                        for(int m = n-1; m > 0; m /= 2){
+                                x++;
+                        }
+                }
+        }
+        return 0;
+}
+\end{minted}
+\end{frame}
+\section{Binary Search}
+\label{sec:org284fb4e}
+\begin{frame}[<+->][label={sec:org3e6db2b}]{When can we use binary search?}
+\begin{itemize}
+\item Increasing/decreasing sequence of numbers
+\item Can we think of a more general criteria?
+\item Think about the peakfinding algorithm
+\end{itemize}
+\end{frame}
+\begin{frame}[label={sec:orga8954f4}]{A more general criteria}
+\begin{itemize}
+\item Given a sequence of elements \(E = [e_{1}, e_{2}, ..., e_{j}]\)
+\item Want to find element \(e^{*}\) in \(E\)
+\item We can apply binary search if:
+\begin{itemize}
+\item \(\exists f\), such that \(\forall i, f(e_{i})\) can tell us:
+\begin{itemize}
+\item if \(e_{i}\) is \(e^{*}\), or
+\item \(e^{*}\) is in \([e_{1}, e_{2}, ... e_{i - 1}]\), or
+\item \(e^{*}\) is in \([e_{i+1}, e_{i+2}, ... e_{j}]\)
+\end{itemize}
+\end{itemize}
+\end{itemize}
+\end{frame}
+\begin{frame}[label={sec:org0f5fa7f}]{Example: Normal Binary Search}
+\begin{itemize}
+\item Find \(5\) in [1,2,4,5,6,7]
+\item \(E = [1,2,4,5,6,7]\)
+\item \(f(x) =\)
+\begin{itemize}
+\item found if \(x = 5\),
+\item search in \([1,2,...,x - 1]\) if \(x > 5\),
+\item search in \([x + 1, x+2...]\) if \(x < 5\)
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[<+->][label={sec:org9a4d200}]{Example: Peakfinding}
+\begin{itemize}
+\item Find \alert{peak} in [1,2,4,5,2,3].
+\item \(f(x) = ?\)
+\begin{itemize}
+\item \(f(x) = \frac{d}{dx}(x)\)
+\item found if \(f(x) = 0\),
+\item search in \([1,2,...,x - 1]\) if \(f(x) < 0\),
+\item search in \([x + 1, x+2...]\) if \(f(x) > 0\)
+\end{itemize}
+\item \(E = ?\)
+\item \(E = [[-\infty, 1, 2], [1,2,4], [2,4,5], [4,5,2],[5,2,3],[2,3,\infty]]\)
+\end{itemize}
+\end{frame}
+\begin{frame}[<+->][label={sec:org0e8eb45}]{Peakfinding Implementation}
+\begin{itemize}
+\item \(\texttt{map(E)}\) takes \(O(n)\)
+\item Lazy evaluation
+\item \(f(x)\) is an operation where \(x\) is an index perhaps?
+\end{itemize}
+\end{frame}
+
+\begin{frame}[label={sec:org2fa9c4a},fragile]{Binary search skeleton}
+ \begin{minted}[]{python}
+def binary_search(arr, f):
+  mid = len(arr) / 2
+  if f(mid) == 0:
+    return mid
+  if f(mid) == -1:
+    # don't actually do this in python
+    return binary_search(arr[:mid-1], f)
+  else:
+    return binary_search(arr[mid+1:], f)
+\end{minted}
+\begin{itemize}
+\item By reducing the algorithm to its simplest elements, we can ease
+our implementation
+\end{itemize}
+\end{frame}
+\begin{frame}[label={sec:orgd22bc26}]{Summary}
+\begin{block}{Java}
+\begin{itemize}
+\item OOP properties
+\end{itemize}
+\end{block}
+\begin{block}{Binary search}
+\begin{itemize}
+\item Removing edge cases
+\item Abstracting reusable elements
+\end{itemize}
+\end{block}
+\begin{block}{To think about}
+\begin{itemize}
+\item Can I use binary search on a sequence with infinite elements?
+\end{itemize}
+\end{block}
+\end{frame}
+\end{document}

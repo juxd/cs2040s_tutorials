@@ -1,0 +1,13 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kd}{public} \PYG{k+kd}{static} \PYG{k+kt}{int} \PYG{n+nf}{drEvilsRevenge}\PYG{o}{(}\PYG{k+kt}{int} \PYG{n}{n}\PYG{o}{)\PYGZob{}}
+        \PYG{k}{return} \PYG{n}{drEvilRecursion}\PYG{o}{(}\PYG{l+m+mi}{0}\PYG{o}{,} \PYG{n}{n}\PYG{o}{);}
+\PYG{o}{\PYGZcb{}}
+
+\PYG{k+kd}{public} \PYG{k+kd}{static} \PYG{k+kt}{int} \PYG{n+nf}{drEvilRecursion}\PYG{o}{(}\PYG{k+kt}{int} \PYG{n}{k}\PYG{o}{,} \PYG{k+kt}{int} \PYG{n}{n}\PYG{o}{)\PYGZob{}}
+        \PYG{k}{if}\PYG{o}{(}\PYG{n}{k} \PYG{o}{==} \PYG{n}{n}\PYG{o}{)} \PYG{k}{return} \PYG{l+m+mi}{0}\PYG{o}{;}
+        \PYG{k}{else} \PYG{o}{\PYGZob{}}
+                \PYG{k}{return} \PYG{n}{drEvilRecursion}\PYG{o}{(}\PYG{n}{k}\PYG{o}{+}\PYG{l+m+mi}{1}\PYG{o}{,} \PYG{n}{n}\PYG{o}{)}
+                     \PYG{o}{+} \PYG{n}{drEvilRecursion}\PYG{o}{(}\PYG{n}{k}\PYG{o}{+}\PYG{l+m+mi}{1}\PYG{o}{,} \PYG{n}{n}\PYG{o}{);}
+        \PYG{o}{\PYGZcb{}}
+\PYG{o}{\PYGZcb{}}
+\end{Verbatim}

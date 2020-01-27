@@ -1,0 +1,273 @@
+#+TITLE: CS2040S Tutorial 1
+#+AUTHOR: Julius (juliuss@u.nus.edu)
+#+OPTIONS: H:2 toc:nil num:t
+#+LATEX_CLASS: beamer
+#+LATEX_CLASS_OPTIONS: [presentation]
+#+BEAMER_THEME: Singapore
+
+* Introduction
+** About me
+:PROPERTIES:
+:BEAMER_act: [<+->]
+:END:
+   - Year 3 in CS (Interest in Distributed Systems)
+   - Did CVWO for the past 2 summers
+   - Uses Emacs
+** Now your turn!
+   - Name
+   - Interests (Preferably not CS related)
+   - What was the nicest thing you ate over CNY?
+** What to expect
+:PROPERTIES:
+:BEAMER_act: [<+->]
+:END:
+   - CS2040S is intense
+     - Some of the material is new to me!
+   - Prepare for class
+   - Contribute to class
+   - I try to respond to emails in like ~24 hours
+     - Or you can ping our Telegram group - others probably have the
+       same query!
+   - I don't want to touch code!
+
+* Java
+** Classes and Objects
+:PROPERTIES:
+:BEAMER_act: [<+->]
+:END:
+   - What is a class?
+   - What is an object?
+** Classes and Objects
+#+BEGIN_SRC java
+class Student {
+  private String name;
+
+  public Student(String name) {
+    this.name = name;
+  }
+}
+
+Student hans = new Student("Hans");
+#+END_SRC
+** Classes and Objects
+#+BEGIN_SRC java
+class Student {
+  private static String name;
+
+  public Student(String name) {
+    this.name = name;
+  }
+}
+
+Student hans = new Student("Hans");
+#+END_SRC
+
+** Classes and Objects
+#+BEGIN_SRC java
+class Student {
+  private String name;
+
+  public Student(String name) {
+    this.name = name;
+  }
+
+  private void sayName() {
+    System.out.printf("Hi, my name is %s\n", this.name);
+  }
+}
+
+Student hans = new Student("Hans");
+hans.sayName();
+#+END_SRC
+** Java vs Source
+:PROPERTIES:
+:BEAMER_act: [<+->]
+:END:
+*** Object-orientedness
+    Everything in Java is an object (well, mostly).
+*** Immutability
+    Because of the object-oriented nature of Java, immutability
+    often isn't guaranteed.
+*** Higher Order Functions
+    It's a pain in Java (Covered in CS2030).
+** Pass by value vs pass-by-reference
+   #+BEGIN_SRC java
+class X { String n = "hi"; }
+
+void foo(X x) { x.n = "bye"; }
+
+X x = new X();
+foo(x);
+System.out.println(x.n);
+   #+END_SRC
+** Pass by value vs pass-by-reference
+   #+BEGIN_SRC java
+class X { String n = "hi"; }
+
+void goo(X x) {
+  x = new X();
+  x.n = "bye";
+}
+
+X xx = new X();
+goo(xx);
+System.out.println(xx.n);
+   #+END_SRC
+** Pass by value vs pass-by-reference
+   #+BEGIN_SRC java
+void hoo(int x) {
+  x += 3;
+}
+
+int n = 3;
+hoo(n);
+System.out.println(n);
+   #+END_SRC
+* Complexity
+** Example 1
+:PROPERTIES:
+:BEAMER_opt: shrink=30
+:END:
+#+BEGIN_SRC java
+public static int niceFunction(int n)
+{
+        for (int i = 0; i < n; i++)
+        {
+                System.out.println("I am nice!");
+        }
+        return 42;
+}
+
+public static int meanFunction(int n)
+{
+        if(n == 0) return 0;
+        return (2 * meanFunction(n/2) + niceFunction(n));
+}
+
+public static int evilFunction(int n)
+{
+        for(int i = 2; i < n; i *= i){
+                System.out.println("To be or not to be");
+        }
+        return 666;
+}
+
+#+END_SRC
+** Example 2
+#+BEGIN_SRC java
+public static int drEvilsRevenge(int n){
+        return drEvilRecursion(0, n);
+}
+
+public static int drEvilRecursion(int k, int n){
+        if(k == n) return 0;
+        else {
+                return drEvilRecursion(k+1, n)
+                     + drEvilRecursion(k+1, n);
+        }
+}
+
+#+END_SRC
+** Example 3
+#+BEGIN_SRC java
+public static int legendaryFunction(int n){
+        int x = 0;
+        if(n == 0) return 1;
+        for(int i = 0; i < n; i++){
+                x += legendaryFunction(n-1);
+        }
+        return x;
+}
+#+END_SRC
+** Example 4
+:PROPERTIES:
+:BEAMER_opt: shrink=30
+:END:
+#+BEGIN_SRC java
+// From CS1020
+public static int theChosenOne(int n)
+{
+        int x = 0;
+        for (int i = 1; i < n; i *= 3)
+        {
+                x++;
+                for(int j = 0; j < i; j++)
+                {
+                        x++;
+                        for(int k = n-1; k >= 0; k--){
+                                x++;
+                        }
+                        for(int m = n-1; m > 0; m /= 2){
+                                x++;
+                        }
+                }
+        }
+        return 0;
+}
+#+END_SRC
+* Binary Search
+** When can we use binary search?
+:PROPERTIES:
+:BEAMER_act: [<+->]
+:END:
+   - Increasing/decreasing sequence of numbers
+   - Can we think of a more general criteria?
+   - Think about the peakfinding algorithm
+** A more general criteria
+   - Given a sequence of elements $E = [e_{1}, e_{2}, ..., e_{j}]$
+   - Want to find element $e^{*}$ in $E$
+   - We can apply binary search if:
+     - $\exists f$, such that $\forall i, f(e_{i})$ can tell us:
+       - if $e_{i}$ is $e^{*}$, or
+       - $e^{*}$ is in $[e_{1}, e_{2}, ... e_{i - 1}]$, or
+       - $e^{*}$ is in $[e_{i+1}, e_{i+2}, ... e_{j}]$
+** Example: Normal Binary Search
+   - Find $5$ in [1,2,4,5,6,7]
+   - $E = [1,2,4,5,6,7]$
+   - $f(x) =$
+     - found if $x = 5$,
+     - search in $[1,2,...,x - 1]$ if $x > 5$,
+     - search in $[x + 1, x+2...]$ if $x < 5$
+
+** Example: Peakfinding
+ :PROPERTIES:
+ :BEAMER_act: [<+->]
+ :END:
+   - Find *peak* in [1,2,4,5,2,3].
+   - $f(x) = ?$
+     - $f(x) = \frac{d}{dx}(x)$
+     - found if $f(x) = 0$,
+     - search in $[1,2,...,x - 1]$ if $f(x) < 0$,
+     - search in $[x + 1, x+2...]$ if $f(x) > 0$
+   - $E = ?$
+   - $E = [[-\infty, 1, 2], [1,2,4], [2,4,5], [4,5,2],[5,2,3],[2,3,\infty]]$
+** Peakfinding Implementation
+ :PROPERTIES:
+ :BEAMER_act: [<+->]
+ :END:
+   - $\texttt{map(E)}$ takes $O(n)$
+   - Lazy evaluation
+   - $f(x)$ is an operation where $x$ is an index perhaps?
+
+** Binary search skeleton
+#+BEGIN_SRC python
+def binary_search(arr, f):
+  mid = len(arr) / 2
+  if f(mid) == 0:
+    return mid
+  if f(mid) == -1:
+    # don't actually do this in python
+    return binary_search(arr[:mid-1], f)
+  else:
+    return binary_search(arr[mid+1:], f)
+#+END_SRC
+   - By reducing the algorithm to its simplest elements, we can ease
+     our implementation
+** Summary
+*** Java
+    - OOP properties
+*** Binary search
+    - Removing edge cases
+    - Abstracting reusable elements
+*** To think about
+    - Can I use binary search on a sequence with infinite elements?
