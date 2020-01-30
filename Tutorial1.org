@@ -32,9 +32,6 @@
 
 * Java
 ** Classes and Objects
-:PROPERTIES:
-:BEAMER_act: [<+->]
-:END:
    - What is a class?
    - What is an object?
 ** Classes and Objects
@@ -94,7 +91,9 @@ hans.sayName();
    #+BEGIN_SRC java
 class X { String n = "hi"; }
 
-void foo(X x) { x.n = "bye"; }
+void foo(X x) {
+  x.n = "bye";
+}
 
 X x = new X();
 foo(x);
@@ -124,6 +123,25 @@ hoo(n);
 System.out.println(n);
    #+END_SRC
 * Complexity
+** Formulas
+:PROPERTIES:
+:BEAMER_act: [<+->]
+:END:
+   - $f_1(n) = 7.2 + 34n^3 + 3254n$
+   - $f_2(n) = n^2\log{n} + 25n\log^2{n}$
+   - $f_3(n) = 2^{4\log{n}} + 5n^5$
+   - $f_4(n) = 2^{2n^2 + 4n + 7}$
+** Formulas
+:PROPERTIES:
+:BEAMER_act: [<+->]
+:END:
+Let $f$ and $g$ be functions of $n$ where $f(n) = O(n)$ and $g(n) =
+O(\log n)$.  
+   - $h_1(n) = f(n) + g(n)$
+   - $h_2(n) = f(n) \times g(n)$
+   - $h_3(n) = \max(f(n), g(n))$
+   - $h_4(n) = f(g(n))$
+   - $h_5(n) = f(n)^{g(n)}$
 ** Example 1
 :PROPERTIES:
 :BEAMER_opt: shrink=30
@@ -155,54 +173,44 @@ public static int evilFunction(int n)
 #+END_SRC
 ** Example 2
 #+BEGIN_SRC java
-public static int drEvilsRevenge(int n){
-        return drEvilRecursion(0, n);
+public int strangerFunction(int n) {
+  for (int i = 0; i < n; i++) {
+    for (int j = 0; j < i; j++) {
+      System.out.println("Execute order?");
+    }
+  }
+  return 66;
 }
-
-public static int drEvilRecursion(int k, int n){
-        if(k == n) return 0;
-        else {
-                return drEvilRecursion(k+1, n)
-                     + drEvilRecursion(k+1, n);
-        }
-}
-
 #+END_SRC
+** Example 2
+#+BEGIN_SRC java
+public int suspiciousFunction(int n) {
+  if (n == 0) return 2040;
+
+  int a = suspiciousFunction(n / 2);
+  int b = suspiciousFunction(n / 2);
+  return a + b + niceFunction(n);
+}
+#+END_SRC
+** Example 2
+[[file:nlogn.png]]
 ** Example 3
 #+BEGIN_SRC java
-public static int legendaryFunction(int n){
-        int x = 0;
-        if(n == 0) return 1;
-        for(int i = 0; i < n; i++){
-                x += legendaryFunction(n-1);
-        }
-        return x;
+public int badFunction(int n) {
+  if (n <= 0) return 2040;
+  if (n == 1) return 2040;
+  return badFunction(n - 1) + badFunction(n - 2) + 0;
 }
 #+END_SRC
 ** Example 4
-:PROPERTIES:
-:BEAMER_opt: shrink=30
-:END:
 #+BEGIN_SRC java
-// From CS1020
-public static int theChosenOne(int n)
-{
-        int x = 0;
-        for (int i = 1; i < n; i *= 3)
-        {
-                x++;
-                for(int j = 0; j < i; j++)
-                {
-                        x++;
-                        for(int k = n-1; k >= 0; k--){
-                                x++;
-                        }
-                        for(int m = n-1; m > 0; m /= 2){
-                                x++;
-                        }
-                }
-        }
-        return 0;
+public int metalGearFunction(int n) {
+  for (int i = 0; i < n; i++) {
+    for (int j = 1; j < i; j *= 2) {
+      System.out.println("!");
+    }
+  }
+  return 0;
 }
 #+END_SRC
 * Binary Search
@@ -216,11 +224,10 @@ public static int theChosenOne(int n)
 ** A more general criteria
    - Given a sequence of elements $E = [e_{1}, e_{2}, ..., e_{j}]$
    - Want to find element $e^{*}$ in $E$
-   - We can apply binary search if:
-     - $\exists f$, such that $\forall i, f(e_{i})$ can tell us:
-       - if $e_{i}$ is $e^{*}$, or
-       - $e^{*}$ is in $[e_{1}, e_{2}, ... e_{i - 1}]$, or
-       - $e^{*}$ is in $[e_{i+1}, e_{i+2}, ... e_{j}]$
+   - $\exists f$, such that $\forall i, f(e_{i})$ can tell us:
+     - if $e_{i}$ is $e^{*}$, or
+     - $e^{*}$ is in $[e_{1}, e_{2}, ... e_{i - 1}]$, or
+     - $e^{*}$ is in $[e_{i+1}, e_{i+2}, ... e_{j}]$
 ** Example: Normal Binary Search
    - Find $5$ in [1,2,4,5,6,7]
    - $E = [1,2,4,5,6,7]$
@@ -253,9 +260,9 @@ public static int theChosenOne(int n)
 #+BEGIN_SRC python
 def binary_search(arr, f):
   mid = len(arr) / 2
-  if f(mid) == 0:
+  if f(mid) == FOUND:
     return mid
-  if f(mid) == -1:
+  elif f(mid) == LEFT:
     # don't actually do this in python
     return binary_search(arr[:mid-1], f)
   else:
@@ -263,11 +270,30 @@ def binary_search(arr, f):
 #+END_SRC
    - By reducing the algorithm to its simplest elements, we can ease
      our implementation
+** Let's try out today's problem
+   (Refer to Tutorial Sheet)
+** Invariants & Inductive properties
+*** At /any/ point of the execution you're at
+ :PROPERTIES:
+ :BEAMER_act: [<+->]
+ :END:
+    - What can we say about our array?
+    - What can we say about *indices*?
 ** Summary
 *** Java
     - OOP properties
 *** Binary search
     - Removing edge cases
     - Abstracting reusable elements
-*** To think about
-    - Can I use binary search on a sequence with infinite elements?
+** To think about
+ :PROPERTIES:
+ :BEAMER_act: [<+->]
+ :END:
+ - Your brother comes to you with a corrupted hard disk, such that any
+   bit until position $x$ is safe, but not the rest.
+ - The good news: you have a hard disk debugger that tells you at a
+   position $p$:
+   - ~TRUE~ if the bit at $p$ is safe,
+   - ~FALSE~ if the bit at $p$ is either corrupted or not in the hard disk.
+ - The bad news: your brother forgot how big his hard disk is
+ - How can we find $x$?
